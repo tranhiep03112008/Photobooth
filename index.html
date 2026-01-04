@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ PhotoBooth By 12A2 ✨</title>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Fond animé avec dégradé */
+        .animated-bg {
+            background: linear-gradient(135deg, #FFB6D9 0%, #D4A5E8 25%, #B8C5F2 50%, #A8D5E2 75%, #FFB6D9 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Bulles flottantes décoratives */
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 8s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bubble1 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #FFE5F1, #FFB6D9);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bubble2 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #E8D5F2, #D4A5E8);
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .bubble3 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #D5E8F2, #A8D5E2);
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .bubble4 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #FFD5E5, #FFB6D9);
+            top: 30%;
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        .bubble5 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #C5D5F2, #B8C5F2);
+            top: 50%;
+            left: 5%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.4;
+            }
+            50% {
+                transform: translateY(-30px) scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        /* Cartes avec effet glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 182, 217, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255, 182, 217, 0.4);
+        }
+
+        /* Titre animé */
+        .title-glow {
+            text-shadow: 0 0 20px rgba(255, 182, 217, 0.5),
+                         0 0 40px rgba(212, 165, 232, 0.3);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(255, 182, 217, 0.5),
+                            0 0 40px rgba(212, 165, 232, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 30px rgba(255, 182, 217, 0.8),
+                            0 0 60px rgba(212, 165, 232, 0.5);
+            }
+        }
+
+        /* Boutons stylés */
+        .btn-pink {
+            background: linear-gradient(135deg, #FFB6D9 0%, #FF8DC7 100%);
+            box-shadow: 0 4px 15px rgba(255, 182, 217, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-pink::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-pink:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-pink:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 182, 217, 0.6);
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, #D4A5E8 0%, #B88FD8 100%);
+            box-shadow: 0 4px 15px rgba(212, 165, 232, 0.4);
+        }
+
+        .btn-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 232, 0.6);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, #A8D5E2 0%, #7FB8D4 100%);
+            box-shadow: 0 4px 15px rgba(168, 213, 226, 0.4);
+        }
+
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 213, 226, 0.6);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #B8E8D4 0%, #8FD8B8 100%);
+            box-shadow: 0 4px 15px rgba(184, 232, 212, 0.4);
+        }
+
+        .btn-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(184, 232, 212, 0.6);
+        }
+
+        /* Select stylé */
+        select {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 250, 0.9));
+            border: 2px solid #FFB6D9;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #D4A5E8;
+            box-shadow: 0 0 15px rgba(212, 165, 232, 0.3);
+            outline: none;
+        }
+
+        /* Effet de brillance sur la vidéo */
+        .camera-container {
+            position: relative;
+            border: 3px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #FFB6D9, #D4A5E8, #A8D5E2) border-box;
+            border-radius: 20px;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 182, 217, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(212, 165, 232, 0.5);
+            }
+        }
+
+        /* Compte à rebours animé */
+        .countdown-number {
+            animation: countdownPop 1s ease-out;
+        }
+
+        @keyframes countdownPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Flash de capture */
+        .flash {
+            animation: flashEffect 0.3s ease-out;
+        }
+
+        @keyframes flashEffect {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Grille de photos avec effet */
+        .photo-grid-item {
+            transition: all 0.3s ease;
+            animation: photoAppear 0.5s ease-out;
+        }
+
+        @keyframes photoAppear {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .photo-grid-item:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 10px 30px rgba(255, 182, 217, 0.4);
+        }
+
+        /* Étoiles scintillantes */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkleAnim 1.5s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(255, 182, 217, 0.3);
+            border-top: 4px solid #FFB6D9;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Effet de vague sur les boutons */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s ease-out;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Emoji tournants */
+        .rotating-emoji {
+            display: inline-block;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="animated-bg">
+    <!-- Bulles décoratives -->
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble2"></div>
+    <div class="bubble bubble3"></div>
+    <div class="bubble bubble4"></div>
+    <div class="bubble bubble5"></div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+
+        const PhotoBooth = () => {
+            const [layout, setLayout] = useState('1x4');
+            const [countdown, setCountdown] = useState(3);
+            const [frame, setFrame] = useState('none');
+            const [isCapturing, setIsCapturing] = useState(false);
+            const [currentCount, setCurrentCount] = useState(0);
+            const [photos, setPhotos] = useState([]);
+            const [stream, setStream] = useState(null);
+            const [videoMode, setVideoMode] = useState(false);
+            const [confirmed, setConfirmed] = useState(false);
+            const [videoRecorder, setVideoRecorder] = useState(null);
+            const [recordedVideo, setRecordedVideo] = useState(null);
+            
+            const videoRef = useRef(null);
+            const canvasRef = useRef(null);
+
+            const layouts = {
+                '1x4': { cols: 1, rows: 4, photos: 4 },
+                '2x2': { cols: 2, rows: 2, photos: 4 },
+                '2x3': { cols: 2, rows: 3, photos: 6 }
+            };
+
+            const frames = [
+                { id: 'none', name: '✨ Mặc định', color: 'transparent' },
+                { id: 'classic', name: '🤍 Còn trong trắng', color: '#ffffff' },
+                { id: 'pink', name: '💖 Yêu màu hồng', color: '#FFB6D9' },
+                { id: 'light-pink', name: '🌸 Hồng nhạt', color: '#FFE5F1' },
+                { id: 'purple', name: '💜 Tím mm', color: '#D4A5E8' },
+                { id: 'lavender', name: '🪻 Tím nhạt', color: '#E8D5F2' },
+                { id: 'blue', name: '💙 Xơi trành', color: '#A8D5E2' },
+                { id: 'mint', name: '🍃 Xa lánh', color: '#B8E8D4' },
+                { id: 'peach', name: '🍑 Campuchia', color: '#FFD5C2' },
+                { id: 'gold', name: '⭐ Vàng nổi', color: '#FFE5B4' }
+            ];
+
+            // Effet d'étoiles scintillantes
+            const createSparkle = (x, y) => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = '✨';
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                sparkle.style.fontSize = Math.random() * 20 + 10 + 'px';
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1500);
+            };
+
+            useEffect(() => {
+                const startCamera = async () => {
+                    try {
+                        const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                            video: { width: 640, height: 480 },
+                            audio: videoMode 
+                        });
+                        setStream(mediaStream);
+                        if (videoRef.current) {
+                            videoRef.current.srcObject = mediaStream;
+                        }
+                    } catch (err) {
+                        console.error("Erreur d'accès à la caméra:", err);
+                        alert("Impossible d'accéder à la caméra. Veuillez autoriser l'accès.");
+                    }
+                };
+                startCamera();
+                return () => {
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                    }
+                };
+            }, []);
+
+            useEffect(() => {
+                const updateStream = async () => {
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                        try {
+                            const newStream = await navigator.mediaDevices.getUserMedia({ 
+                                video: { width: 640, height: 480 },
+                                audio: videoMode 
+                            });
+                            setStream(newStream);
+                            if (videoRef.current) {
+                                videoRef.current.srcObject = newStream;
+                            }
+                        } catch (err) {
+                            console.error("Erreur lors de la mise à jour du stream:", err);
+                        }
+                    }
+                };
+                updateStream();
+            }, [videoMode]);
+
+            const capturePhoto = () => {
+                const canvas = canvasRef.current;
+                const video = videoRef.current;
+                
+                if (canvas && video) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0);
+                    return canvas.toDataURL('image/jpeg');
+                }
+                return null;
+            };
+
+            const startCountdown = async () => {
+                if (isCapturing) return;
+                
+                setIsCapturing(true);
+                setPhotos([]);
+                setConfirmed(false);
+                setRecordedVideo(null);
+                
+                const totalPhotos = layouts[layout].photos;
+                let photosTaken = [];
+                let chunks = [];
+                let recorder = null;
+
+                if (videoMode && stream) {
+                    recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                    recorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) {
+                            chunks.push(e.data);
+                        }
+                    };
+                    recorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        const url = URL.createObjectURL(blob);
+                        setRecordedVideo(url);
+                    };
+                    recorder.start();
+                    setVideoRecorder(recorder);
+                }
+
+                for (let i = 0; i < totalPhotos; i++) {
+                    for (let j = countdown; j > 0; j--) {
+                        setCurrentCount(j);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    
+                    setCurrentCount(0);
+                    const photo = capturePhoto();
+                    if (photo) {
+                        photosTaken.push(photo);
+                        setPhotos([...photosTaken]);
+                        // Effet d'étoiles
+                        for (let k = 0; k < 5; k++) {
+                            setTimeout(() => {
+                                createSparkle(
+                                    Math.random() * window.innerWidth,
+                                    Math.random() * window.innerHeight
+                                );
+                            }, k * 100);
+                        }
+                    }
+                    
+                    if (i < totalPhotos - 1) {
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                }
+
+                if (recorder && recorder.state === 'recording') {
+                    recorder.stop();
+                }
+
+                setIsCapturing(false);
+                setCurrentCount(0);
+            };
+
+            const restart = () => {
+                setPhotos([]);
+                setConfirmed(false);
+                setRecordedVideo(null);
+                setCurrentCount(0);
+                if (videoRecorder && videoRecorder.state === 'recording') {
+                    videoRecorder.stop();
+                }
+            };
+
+            const downloadResult = () => {
+                const canvas = document.createElement('canvas');
+                const { cols, rows } = layouts[layout];
+                const photoWidth = 400;
+                const photoHeight = 300;
+                const frameWidth = 20;
+                
+                canvas.width = cols * (photoWidth + frameWidth * 2);
+                canvas.height = rows * (photoHeight + frameWidth * 2);
+                
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                photos.forEach((photo, index) => {
+                    const col = index % cols;
+                    const row = Math.floor(index / cols);
+                    const x = col * (photoWidth + frameWidth * 2);
+                    const y = row * (photoHeight + frameWidth * 2);
+
+                    const selectedFrame = frames.find(f => f.id === frame);
+                    if (selectedFrame && selectedFrame.color !== 'transparent') {
+                        ctx.fillStyle = selectedFrame.color;
+                        ctx.fillRect(x, y, photoWidth + frameWidth * 2, photoHeight + frameWidth * 2);
+                    }
+
+                    const img = new Image();
+                    img.src = photo;
+                    img.onload = () => {
+                        ctx.drawImage(img, x + frameWidth, y + frameWidth, photoWidth, photoHeight);
+                        
+                        if (index === photos.length - 1) {
+                            setTimeout(() => {
+                                const link = document.createElement('a');
+                                link.download = `photomaton-magique-${Date.now()}.jpg`;
+                                link.href = canvas.toDataURL('image/jpeg', 0.95);
+                                link.click();
+                                // Étoiles de célébration
+                                for (let i = 0; i < 20; i++) {
+                                    setTimeout(() => {
+                                        createSparkle(
+                                            Math.random() * window.innerWidth,
+                                            Math.random() * window.innerHeight
+                                        );
+                                    }, i * 50);
+                                }
+                            }, 100);
+                        }
+                    };
+                });
+            };
+
+            const currentLayout = layouts[layout];
+            const selectedFrame = frames.find(f => f.id === frame);
+
+            return (
+                <div className="min-h-screen p-4 md:p-8" style={{position: 'relative', zIndex: 10}}>
+                    <div className="max-w-7xl mx-auto">
+                        <h1 className="text-4xl md:text-6xl font-bold text-center mb-3 title-glow" 
+                            style={{color: '#FF69B4'}}>
+                            <span className="rotating-emoji">✨</span> PhotoBooth By 12A2 <span className="rotating-emoji">💫</span>
+                        </h1>
+                        <p className="text-center text-lg mb-8 font-semibold" style={{color: '#D4A5E8'}}>
+                            Tạo ra những kỉ niệm khó quên ! 📸💖
+                        </p>
+
+                        {/* Options de configuration */}
+                        <div className="glass-card rounded-3xl shadow-2xl p-6 mb-6">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label className="block text-sm font-bold mb-3" style={{color: '#FF69B4'}}>
+                                        📐 Tỉ lệ ảnh
+                                    </label>
+                                    <select
+                                        value={layout}
+                                        onChange={(e) => setLayout(e.target.value)}
+                                        className="w-full p-3 rounded-xl font-semibold text-gray-700"
+                                        disabled={isCapturing || photos.length > 0}
+                                    >
+                                        <option value="1x4">1x4 (4 photos) 📱</option>
+                                        <option value="2x2">2x2 (4 photos) ⬜</option>
+                                        <option value="2x3">2x3 (6 photos) 🖼️</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-bold mb-3" style={{color: '#D4A5E8'}}>
+                                        ⏱️ Thời gian chờ
+                                    </label>
+                                    <select
+                                        value={countdown}
+                                        onChange={(e) => setCountdown(Number(e.target.value))}
+                                        className="w-full p-3 rounded-xl font-semibold text-gray-700"
+                                        disabled={isCapturing}
+                                    >
+                                        <option value={3}>3 second ⚡</option>
+                                        <option value={5}>5 second ⭐</option>
+                                        <option value={8}>8 second 🌟</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-bold mb-3" style={{color: '#A8D5E2'}}>
+                                        🎨 Khung ảnh
+                                    </label>
+                                    <select
+                                        value={frame}
+                                        onChange={(e) => setFrame(e.target.value)}
+                                        className="w-full p-3 rounded-xl font-semibold text-gray-700"
+                                        disabled={isCapturing}
+                                    >
+                                        {frames.map(f => (
+                                            <option key={f.id} value={f.id}>{f.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Zone caméra */}
+                        <div className="glass-card rounded-3xl shadow-2xl p-6 mb-6">
+                            <div className="relative">
+                                <div 
+                                    className="camera-container relative mx-auto overflow-hidden"
+                                    style={{ 
+                                        maxWidth: '640px',
+                                        padding: selectedFrame?.color !== 'transparent' ? '20px' : '0',
+                                        backgroundColor: selectedFrame?.color || 'transparent'
+                                    }}
+                                >
+                                    <video
+                                        ref={videoRef}
+                                        autoPlay
+                                        playsInline
+                                        muted
+                                        className="w-full h-auto rounded-xl"
+                                    />
+                                    {isCapturing && currentCount > 0 && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 rounded-xl">
+                                            <div className="countdown-number text-white font-bold" 
+                                                 style={{fontSize: '120px', textShadow: '0 0 30px rgba(255, 182, 217, 0.8)'}}>
+                                                {currentCount}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {isCapturing && currentCount === 0 && (
+                                        <div className="absolute inset-0 flex items-center justify-center flash">
+                                            <div style={{fontSize: '80px'}}>📸✨</div>
+                                        </div>
+                                    )}
+                                </div>
+                                <canvas ref={canvasRef} style={{display: 'none'}} />
+                            </div>
+
+                            {/* Boutons de contrôle */}
+                            <div className="flex flex-wrap justify-center gap-4 mt-8">
+                                <button
+                                    onClick={startCountdown}
+                                    disabled={isCapturing || (photos.length > 0 && !confirmed)}
+                                    className="btn-pink flex items-center gap-3 px-8 py-4 text-white rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                >
+                                    <span style={{fontSize: '28px'}}>📷</span>
+                                    <span>Bắt đầu chụp</span>
+                                </button>
+                                <button
+                                    onClick={restart}
+                                    disabled={isCapturing || photos.length === 0}
+                                    className="btn-purple flex items-center gap-3 px-8 py-4 text-white rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <span style={{fontSize: '28px'}}>🔄</span>
+                                    <span>Bắt đầu lại</span>
+                                </button>
+                            </div>
+
+                            {/* Mode vidéo */}
+                            <div className="flex justify-center mt-6">
+                                <button
+                                    onClick={() => setVideoMode(!videoMode)}
+                                    disabled={isCapturing}
+                                    className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg transition-all ${
+                                        videoMode 
+                                            ? 'btn-blue text-white' 
+                                            : 'bg-white text-gray-600 border-2 border-gray-300'
+                                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                >
+                                    <span style={{fontSize: '28px'}}>{videoMode ? '🎥' : '📹'}</span>
+                                    <span>Video {videoMode ? 'ON 💫' : 'OFF'}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Aperçu et résultat */}
+                        {photos.length > 0 && (
+                            <div className="glass-card rounded-3xl shadow-2xl p-6">
+                                <h2 className="text-3xl font-bold mb-6 text-center title-glow" style={{color: '#FF69B4'}}>
+                                    ✨ Ảnh ở dưới nè ✨
+                                </h2>
+                                
+                                <div 
+                                    className="grid gap-3 mx-auto mb-8 p-6 rounded-2xl"
+                                    style={{
+                                        gridTemplateColumns: `repeat(${currentLayout.cols}, 1fr)`,
+                                        maxWidth: '800px',
+                                        background: 'linear-gradient(135deg, rgba(255, 240, 250, 0.5), rgba(232, 213, 242, 0.5))'
+                                    }}
+                                >
+                                    {Array.from({ length: currentLayout.photos }).map((_, index) => (
+                                        <div
+                                            key={index}
+                                            className="photo-grid-item relative rounded-xl overflow-hidden"
+                                            style={{
+                                                aspectRatio: '4/3',
+                                                padding: selectedFrame?.color !== 'transparent' ? '8px' : '0',
+                                                backgroundColor: selectedFrame?.color || 'white',
+                                                boxShadow: '0 4px 15px rgba(255, 182, 217, 0.3)'
+                                            }}
+                                        >
+                                            {photos[index] ? (
+                                                <img
+                                                    src={photos[index]}
+                                                    alt={`Photo ${index + 1}`}
+                                                    className="w-full h-full object-cover rounded-lg"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg">
+                                                    <span style={{fontSize: '48px'}}>📷</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Vidéo récapitulative */}
+                                {recordedVideo && (
+                                    <div className="mb-8 animate-fadeIn">
+                                        <h3 className="text-2xl font-bold mb-4 text-center" style={{color: '#D4A5E8'}}>
+                                            🎬 Ảnh lưu niệm 
+                                        </h3>
+                                        <video
+                                            src={recordedVideo}
+                                            controls
+                                            className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg"
+                                            style={{border: '3px solid #FFB6D9'}}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Boutons de confirmation et téléchargement */}
+                                <div className="flex flex-wrap justify-center gap-4">
+                                    {!confirmed && photos.length === currentLayout.photos && (
+                                        <button
+                                            onClick={() => {
+                                                setConfirmed(true);
+                                                for (let i = 0; i < 10; i++) {
+                                                    setTimeout(() => {
+                                                        createSparkle(
+                                                            Math.random() * window.innerWidth,
+                                                            Math.random() * window.innerHeight
+                                                        );
+                                                    }, i * 80);
+                                                }
+                                            }}
+                                            className="btn-blue flex items-center gap-3 px-10 py-5 text-white rounded-2xl font-bold text-xl shadow-lg"
+                                        >
+                                            <span style={{fontSize: '32px'}}>✓</span>
+                                            <span>Xác nhận ảnh</span>
+                                        </button>
+                                    )}
+                                    {confirmed && (
+                                        <button
+                                            onClick={downloadResult}
+                                            className="btn-green flex items-center gap-3 px-10 py-5 text-white rounded-2xl font-bold text-xl shadow-lg animate-bounce"
+                                        >
+                                            <span style={{fontSize: '32px'}}>⬇️</span>
+                                            <span>Tải xuống ảnh</span>
+                                        </button>
+                                    )}
+                                </div>
+
+                                {confirmed && (
+                                    <div className="mt-6 text-center">
+                                        <p className="text-lg font-semibold" style={{color: '#FF69B4'}}>
+                                            🎉 Toẹt vời, bấm vào để tải ảnh dìa ! 🎉
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Message d'encouragement */}
+                        {photos.length === 0 && !isCapturing && (
+                            <div className="glass-card rounded-3xl shadow-2xl p-8 text-center">
+                                <p className="text-2xl font-bold mb-4" style={{color: '#D4A5E8'}}>
+                                    🌟 Bạn đã sẵn sàng lưu lại những kỉ niệm chưa ? 🌟
+                                </p>
+                                <p className="text-lg" style={{color: '#A8D5E2'}}>
+                                    Chọn các tuỳ chọn của bạn và bắt đầu chụp ảnh ! ✨
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Footer */}
+                        <div className="mt-8 text-center">
+                            <p className="text-sm font-semibold" style={{color: '#FF69B4'}}>
+                                Tạo ra bởi tìn iu 💖 Mong muốn lưu giữ kỉ niệm ✨ 12A2 with love ✨
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<PhotoBooth />, document.getElementById('root'));
+    </script>
+</body>
+</html>
