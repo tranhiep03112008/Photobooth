@@ -18,8 +18,6 @@
             animation: gradientShift 15s ease infinite;
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .rotate-icon { display: inline-block; animation: rotate 4s linear infinite; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15); }
         .preview-wrapper { position: relative; background: #fff; overflow: hidden; display: grid; z-index: 10; margin: 0 auto; transition: all 0.3s ease; }
         .slot { position: relative; width: 100%; height: 100%; overflow: hidden; background: #f8f8f8; }
@@ -39,8 +37,6 @@
             70% { transform: scale(0.9); }
             100% { transform: scale(1); }
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fadeIn { animation: fadeIn 0.5s ease forwards; }
         .compliment-box { animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
     </style>
 </head>
@@ -65,57 +61,42 @@
 
             const videoRef = useRef(null);
 
-            const compliments = ["Xinh xỉu luôn á! 😍", "10 điểm không có nhưng! ✨", "Visual này là cực phẩm! 🌟",];
+            const compliments = ["Xinh xỉu luôn á! 😍", "10 điểm không có nhưng! ✨", "Visual này là cực phẩm! 🌟", "Đẹp xuất sắc luôn bạn ơi! 🔥"];
 
-            
             const layouts = {
-                '1x4': { 
-                    cols: 1, rows: 4, photos: 4, width: 600, height: 1800,
-                    pt: 0, pr: 0, pb: 115, pl: 0, 
-                    rg: 0, cg: 0 
-                },
-                '2x2': { 
-                    cols: 2, rows: 2, photos: 4, width: 1200, height: 1800,
-                    pt: 0, pr: 0, pb: 115, pl: 0, 
-                    rg: 0, cg: 0
-                },
-                '2x3': { 
-                    cols: 2, rows: 3, photos: 6, width: 1200, height: 1800,
-                    pt: 0, pr: 0, pb: 115, pl: 0, 
-                    rg: 0, cg: 0
-                }
+                '1x4': { cols: 1, rows: 4, photos: 4, width: 600, height: 1800, pt: 0, pr: 0, pb: 115, pl: 0, rg: 0, cg: 0 },
+                '2x2': { cols: 2, rows: 2, photos: 4, width: 1200, height: 1800, pt: 0, pr: 0, pb: 115, pl: 0, rg: 0, cg: 0 },
+                '2x3': { cols: 2, rows: 3, photos: 6, width: 1200, height: 1800, pt: 0, pr: 0, pb: 115, pl: 0, rg: 0, cg: 0 }
             };
 
             const framesData = {
                 '1x4': [
                     { id: 'f1', src: 'Frames/1x4/68a3d8f16c61d.png' },
-                    { id: 'f1x4_new1', src: 'Frames/1x4/68a98cd549993.png' },
-                    { id: 'f1x4_new2', src: 'Frames/1x4/68a98d148d58a.png' },
-                    { id: 'f1x4_new3', src: 'Frames/1x4/68aa0dcb8dfa1.png' },
-                    { id: 'f1x4_new4', src: 'Frames/1x4/68b0244e76e35.png' },
-                    { id: 'f1x4_new5', src: 'Frames/1x4/68b0907158035.png' },
-                    { id: 'f1x4_new6', src: 'Frames/1x4/68d50f3783378.png' },
-                    { id: 'f1x4_new7', src: 'Frames/1x4/68dc652f832fc.png' },
-                    { id: 'f1x4_new8', src: 'Frames/1x4/68dcc67d7e7ab.png' },
-                    { id: 'f1x4_new9', src: 'Frames/1x4/68dd4388c0191.png' },
-                    { id: 'f1x4_new10', src: 'Frames/1x4/68df41df4934f.png' },
-                    { id: 'f1x4_new11', src: 'Frames/1x4/68df42a174a8d.png' },
-                    { id: 'f1x4_new12', src: 'Frames/1x4/68df4196da89b.png' },
-                    { id: 'f1x4_new13', src: 'Frames/1x4/68e8e901bae50.png' },
-                    { id: 'f1x4_new14', src: 'Frames/1x4/68e67ec98245f.png' },
-                    { id: 'f1x4_new15', src: 'Frames/1x4/686fe53db6dfc.png' },
-                    { id: 'f1x4_new16', src: 'Frames/1x4/689ab7bec5d76.png' },
-                    { id: 'f1x4_new17', src: 'Frames/1x4/692edb205f3f0.png' },
-                    { id: 'f1x4_new18', src: 'Frames/1x4/6852d138ea7bf.png' },
-                    { id: 'f1x4_new19', src: 'Frames/1x4/6910bc26e14da.png' },
-                    { id: 'f1x4_new20', src: 'Frames/1x4/68529b8f964a4.png' },
-                    { id: 'f1x4_new21', src: 'Frames/1x4/68529bdb96806.png' },
-                    { id: 'f1x4_new22', src: 'Frames/1x4/68529cfb9748d.png' },
-                    { id: 'f1x4_new23', src: 'Frames/1x4/69567d8355fe2.png' },
-                    { id: 'f1x4_new24', src: 'Frames/1x4/687779c79d107.png' },
-                    { id: 'f1x4_new25', src: 'Frames/1x4/6852977303afd.png' },
-
-                    
+                    { id: 'f1x4_2', src: 'Frames/1x4/68a98cd549993.png' },
+                    { id: 'f1x4_3', src: 'Frames/1x4/68a98d148d58a.png' },
+                    { id: 'f1x4_4', src: 'Frames/1x4/68aa0dcb8dfa1.png' },
+                    { id: 'f1x4_5', src: 'Frames/1x4/68b0244e76e35.png' },
+                    { id: 'f1x4_6', src: 'Frames/1x4/68b0907158035.png' },
+                    { id: 'f1x4_7', src: 'Frames/1x4/68d50f3783378.png' },
+                    { id: 'f1x4_8', src: 'Frames/1x4/68dc652f832fc.png' },
+                    { id: 'f1x4_9', src: 'Frames/1x4/68dcc67d7e7ab.png' },
+                    { id: 'f1x4_10', src: 'Frames/1x4/68dd4388c0191.png' },
+                    { id: 'f1x4_11', src: 'Frames/1x4/68df41df4934f.png' },
+                    { id: 'f1x4_12', src: 'Frames/1x4/68df42a174a8d.png' },
+                    { id: 'f1x4_13', src: 'Frames/1x4/68df4196da89b.png' },
+                    { id: 'f1x4_14', src: 'Frames/1x4/68e8e901bae50.png' },
+                    { id: 'f1x4_15', src: 'Frames/1x4/68e67ec98245f.png' },
+                    { id: 'f1x4_16', src: 'Frames/1x4/686fe53db6dfc.png' },
+                    { id: 'f1x4_17', src: 'Frames/1x4/689ab7bec5d76.png' },
+                    { id: 'f1x4_18', src: 'Frames/1x4/692edb205f3f0.png' },
+                    { id: 'f1x4_19', src: 'Frames/1x4/6852d138ea7bf.png' },
+                    { id: 'f1x4_20', src: 'Frames/1x4/6910bc26e14da.png' },
+                    { id: 'f1x4_21', src: 'Frames/1x4/68529b8f964a4.png' },
+                    { id: 'f1x4_22', src: 'Frames/1x4/68529bdb96806.png' },
+                    { id: 'f1x4_23', src: 'Frames/1x4/68529cfb9748d.png' },
+                    { id: 'f1x4_24', src: 'Frames/1x4/69567d8355fe2.png' },
+                    { id: 'f1x4_25', src: 'Frames/1x4/687779c79d107.png' },
+                    { id: 'f1x4_26', src: 'Frames/1x4/6852977303afd.png' }
                 ],
                 '2x2': [
                     { id: 'f2x2_1', src: 'Frames/2x2/68c3fdcb527e5.png' },
@@ -124,7 +105,7 @@
                     { id: 'f2x2_4', src: 'Frames/2x2/68df3ed02d775.png' },
                     { id: 'f2x2_5', src: 'Frames/2x2/68df3f19d9d3f.png' },
                     { id: 'f2x2_6', src: 'Frames/2x2/6928ddc669493.png' },
-                    { id: 'f2x2_7', src: 'Frames/2x2/69310c3abb836.png' },
+                    { id: 'f2x2_7', src: 'Frames/2x2/69310c3abb836.png' }
                 ],
                 '2x3': [
                     { id: 'f2x3_1', src: 'Frames/2x3/68df47ae9c158.png' },
@@ -140,7 +121,7 @@
                     { id: 'f2x3_11', src: 'Frames/2x3/68529d27481d8.png' },
                     { id: 'f2x3_12', src: 'Frames/2x3/68529db67f80e.png' },
                     { id: 'f2x3_13', src: 'Frames/2x3/68529e3629737.png' },
-                    { id: 'f2x3_14', src: 'Frames/2x3/69567fdb48069.png' },
+                    { id: 'f2x3_14', src: 'Frames/2x3/69567fdb48069.png' }
                 ]
             };
 
@@ -173,21 +154,28 @@
             const startCaptureSession = async () => {
                 setPhotos([]); setIsCapturing(true); setFinalImage(null);
                 const tempPhotos = [];
-                for (let i = 0; i < layouts[layout].photos; i++) {
+                const numPhotos = layouts[layout].photos;
+
+                for (let i = 0; i < numPhotos; i++) {
                     setActiveSlot(i);
                     for (let c = countdown; c > 0; c--) {
                         setCurrentCount(c); await new Promise(r => setTimeout(r, 1000));
                     }
                     setCurrentCount(0);
+                    
                     const canvas = document.createElement('canvas');
-                    canvas.width = videoRef.current.videoWidth; canvas.height = videoRef.current.videoHeight;
+                    canvas.width = videoRef.current.videoWidth; 
+                    canvas.height = videoRef.current.videoHeight;
                     const ctx = canvas.getContext('2d');
                     ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
                     ctx.drawImage(videoRef.current, 0, 0);
-                    tempPhotos.push(canvas.toDataURL('image/jpeg', 0.95));
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+                    tempPhotos.push(dataUrl);
                     setPhotos([...tempPhotos]);
+                    
                     setFlash(true); setTimeout(() => setFlash(false), 150);
-                    await new Promise(r => setTimeout(r, 600));
+                    await new Promise(r => setTimeout(r, 800));
                 }
                 setIsCapturing(false);
                 setCompliment(compliments[Math.floor(Math.random() * compliments.length)]);
@@ -199,14 +187,13 @@
                 const canvas = document.createElement('canvas');
                 canvas.width = config.width; canvas.height = config.height;
                 const ctx = canvas.getContext('2d');
-                ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Hip
-                const rg = config.rg || 0;
-                const cg = config.cg || 0;
+                // Nền trắng
+                ctx.fillStyle = "#ffffff"; 
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                const availableW = config.width - config.pl - config.pr - (cg * (config.cols - 1));
-                const availableH = config.height - config.pt - config.pb - (rg * (config.rows - 1));
+                const availableW = config.width - config.pl - config.pr;
+                const availableH = config.height - config.pt - config.pb;
                 const cellW = availableW / config.cols;
                 const cellH = availableH / config.rows;
 
@@ -215,22 +202,26 @@
                         const im = new Image(); im.onload = () => res(im); im.src = pList[i]; 
                     });
                     const col = i % config.cols, row = Math.floor(i / config.cols);
-                    const posX = config.pl + (col * (cellW + cg));
-                    const posY = config.pt + (row * (cellH + rg));
+                    const posX = config.pl + (col * cellW);
+                    const posY = config.pt + (row * cellH);
                     drawImageProp(ctx, img, posX, posY, cellW, cellH);
                 }
 
                 if (selectedFrame) {
                     const fImg = await new Promise(res => { 
-                        const im = new Image(); im.crossOrigin="anonymous"; im.onload = () => res(im); im.src = selectedFrame.src; 
+                        const im = new Image(); 
+                        im.crossOrigin = "anonymous"; 
+                        im.onload = () => res(im); 
+                        im.src = selectedFrame.src; 
                     });
                     ctx.drawImage(fImg, 0, 0, canvas.width, canvas.height);
                 }
+                
                 setFinalImage(canvas.toDataURL('image/png'));
             };
 
             const handleReset = () => {
-                setPhotos([]); setActiveSlot(0); setFinalImage(null); setIsCapturing(false);
+                setPhotos([]); setActiveSlot(0); setFinalImage(null); setIsCapturing(false); setCurrentCount(0);
             };
 
             const previewWidth = layout === '1x4' ? 280 : 450;
@@ -238,80 +229,100 @@
             return (
                 <div className="flex flex-col items-center py-6 px-4">
                     {flash && <div className="flash" />}
+                    
                     <header className="text-center mb-6">
-                        <h1 className="text-3xl md:text-5xl font-black text-pink-500">✨ PhotoBooth 12A2 ✨</h1>
+                        <h1 className="text-3xl md:text-5xl font-black text-pink-500 drop-shadow-sm">✨ PhotoBooth 12A2 ✨</h1>
                     </header>
 
                     <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        {/* CỘT TRÁI: KHU VỰC CHỤP ẢNH */}
                         <div className="lg:col-span-7 flex flex-col items-center">
-                            <div className="glass-card p-4 rounded-[35px] shadow-2xl">
+                            <div className="glass-card p-4 rounded-[35px] shadow-2xl relative">
                                 <div className="preview-wrapper" style={{
                                     width: `${previewWidth}px`,
                                     aspectRatio: `${layouts[layout].width}/${layouts[layout].height}`,
                                     gridTemplateColumns: `repeat(${layouts[layout].cols}, 1fr)`,
                                     gridTemplateRows: `repeat(${layouts[layout].rows}, 1fr)`,
                                     padding: `${layouts[layout].pt * (previewWidth/layouts[layout].width)}px ${layouts[layout].pr * (previewWidth/layouts[layout].width)}px ${layouts[layout].pb * (previewWidth/layouts[layout].width)}px ${layouts[layout].pl * (previewWidth/layouts[layout].width)}px`,
-                                    rowGap: `${(layouts[layout].rg || 0) * (previewWidth/layouts[layout].width)}px`,
-                                    columnGap: `${(layouts[layout].cg || 0) * (previewWidth/layouts[layout].width)}px`
                                 }}>
                                     {Array.from({ length: layouts[layout].photos }).map((_, i) => (
                                         <div key={i} className="slot">
-                                            {photos[i] ? <img src={photos[i]} className="captured-photo" /> :
-                                             (activeSlot === i) ? <video ref={videoRef} autoPlay playsInline className="video-feed" /> : null}
+                                            {photos[i] ? (
+                                                <img src={photos[i]} className="captured-photo" />
+                                            ) : (
+                                                activeSlot === i ? <video ref={videoRef} autoPlay playsInline className="video-feed" /> : null
+                                            )}
                                             {activeSlot === i && isCapturing && currentCount > 0 && (
-                                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 text-white text-5xl font-black">{currentCount}</div>
+                                                <div className="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-6xl font-black z-20">
+                                                    {currentCount}
+                                                </div>
                                             )}
                                         </div>
                                     ))}
                                     {selectedFrame && <img src={selectedFrame.src} className="overlay-frame" />}
                                 </div>
                             </div>
+
                             <div className="flex gap-4 w-full mt-6" style={{ maxWidth: `${previewWidth}px` }}>
-                                <button onClick={handleReset} className="btn-reset flex-1 py-4 rounded-2xl font-bold">CHỤP LẠI</button>
-                                <button onClick={startCaptureSession} disabled={isCapturing} className="btn-capture flex-[2] py-4 rounded-2xl font-bold">BẮT ĐẦU CHỤP</button>
+                                <button onClick={handleReset} className="btn-reset flex-1 py-4 rounded-2xl font-bold uppercase tracking-wider shadow-sm">Chụp lại</button>
+                                <button 
+                                    onClick={startCaptureSession} 
+                                    disabled={isCapturing} 
+                                    className={`btn-capture flex-[2] py-4 rounded-2xl font-bold uppercase tracking-wider ${isCapturing ? 'opacity-50' : ''}`}
+                                >
+                                    {isCapturing ? 'Đang chụp...' : 'Bắt đầu chụp'}
+                                </button>
                             </div>
                         </div>
-                            
-                            
 
+                        {/* CỘT PHẢI: CÀI ĐẶT HOẶC KẾT QUẢ */}
                         <div className="lg:col-span-5 space-y-6 w-full">
                             {finalImage ? (
-                                <div className="glass-card p-6 rounded-[30px] text-center compliment-box">
+                                <div className="glass-card p-6 rounded-[30px] text-center compliment-box border-2 border-pink-200">
                                     <h3 className="text-2xl font-black text-pink-500 mb-4">{compliment}</h3>
-                                    <img src={finalImage} className="max-h-[500px] mx-auto rounded-xl shadow-lg border-4 border-white mb-4" />
-                                    <a href={finalImage} download="12A2_Booth.png" className="block w-full bg-green-500 text-white py-4 rounded-xl font-bold">TẢI ẢNH VỀ</a>
-                                </div>
-                            ) : (
-                                <div className="glass-card p-6 rounded-[30px] space-y-6">
-                                    <div className="space-y-2">
-                                        <label className="font-bold text-pink-600">📐 TỈ LỆ KHUNG</label>
-                                        <div className="grid grid-cols-3 gap-2">
-                                            {['1x4', '2x2', '2x3'].map(l => (
-                                                <button key={l} onClick={() => setLayout(l)} className={`py-3 rounded-xl font-bold transition ${layout === l ? 'bg-pink-400 text-white shadow-md' : 'bg-white text-pink-400 border'}`}>{l}</button>
-                                            ))}
-                                            <div className="space-y-4">
-                                                <label className="font-bold text-pink-600">
-                                                    ⏱️ Thời gian chờ
-                                                </label>
-                                                <div className="grid grid-cols-3 gap-3">
-                                                    {[3, 5, 10].map(sec => (
-                                                        <button 
-                                                            key={sec} 
-                                                            onClick={() => setCountdown(sec)} 
-                                                            className={`py-3 rounded-xl font-bold transition-all ${countdown === sec ? 'bg-pink-500 text-white scale-105 shadow-md' : 'bg-white text-pink-400 border-2 border-pink-100'}`}
-                                                        >
-                                                            {sec} s
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
+                                    <div className="relative group mb-4">
+                                        <img src={finalImage} className="max-h-[500px] mx-auto rounded-xl shadow-lg border-4 border-white" />
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-xl">
+                                            <p className="text-white font-bold">Nhấn giữ ảnh hoặc bấm nút dưới để tải</p>
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="font-bold text-pink-600">🎨 CHỌN KHUNG</label>
-                                        <div className="frame-list flex gap-3 overflow-x-auto py-2">
+                                    <div className="space-y-3">
+                                        <a href={finalImage} download="PhotoBooth_12A2.png" className="block w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg">
+                                            TẢI ẢNH VỀ MÁY 📥
+                                        </a>
+                                        <button onClick={handleReset} className="text-pink-500 font-bold underline">Chụp thêm tấm nữa!</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="glass-card p-6 rounded-[30px] space-y-8 shadow-xl">
+                                    <div className="space-y-3">
+                                        <label className="font-bold text-pink-600 flex items-center gap-2">📐 TỈ LỆ KHUNG HÌNH</label>
+                                        <div className="grid grid-cols-3 gap-2">
+                                            {['1x4', '2x2', '2x3'].map(l => (
+                                                <button key={l} onClick={() => setLayout(l)} className={`py-3 rounded-xl font-bold transition-all ${layout === l ? 'bg-pink-400 text-white shadow-md scale-105' : 'bg-white text-pink-400 border border-pink-100'}`}>{l}</button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <label className="font-bold text-pink-600 flex items-center gap-2">⏱️ THỜI GIAN CHỜ (S)</label>
+                                        <div className="grid grid-cols-3 gap-2">
+                                            {[3, 5, 10].map(sec => (
+                                                <button key={sec} onClick={() => setCountdown(sec)} className={`py-3 rounded-xl font-bold transition-all ${countdown === sec ? 'bg-pink-500 text-white shadow-md scale-105' : 'bg-white text-pink-400 border border-pink-100'}`}>{sec}s</button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <label className="font-bold text-pink-600 flex items-center gap-2">🎨 CHỌN KHUNG TRANG TRÍ</label>
+                                        <div className="frame-list flex gap-3 overflow-x-auto py-2 px-1">
                                             {framesData[layout].map(f => (
-                                                <img key={f.id} src={f.src} onClick={() => setSelectedFrame(f)} className={`h-24 w-16 object-contain cursor-pointer rounded-lg border-2 p-1 transition ${selectedFrame?.id === f.id ? 'border-pink-500 bg-pink-50' : 'border-transparent'}`} />
+                                                <img 
+                                                    key={f.id} 
+                                                    src={f.src} 
+                                                    onClick={() => setSelectedFrame(f)} 
+                                                    className={`h-28 w-20 object-contain cursor-pointer rounded-lg border-2 p-1 transition-all flex-shrink-0 ${selectedFrame?.id === f.id ? 'border-pink-500 bg-pink-50 scale-110 shadow-md' : 'border-transparent opacity-70'}`} 
+                                                />
                                             ))}
                                         </div>
                                     </div>
@@ -319,31 +330,14 @@
                             )}
                         </div>
                     </div>
-                    <footer className="w-full max-w-4xl mt-12 mb-20 px-4 text-center animate-fadeIn mx-auto">
-                                <div className="glass-card p-10 rounded-[45px] border-pink-200 relative overflow-hidden shadow-xl">
-                                    
-                                    <div className="absolute -top-24 -left-24 w-48 h-48 bg-pink-200/30 blur-3xl rounded-full"></div>
-                                    
-                                    <h2 className="text-pink-600 font-bold text-2xl md:text-3xl mb-3 drop-shadow-sm">
-                                        🌟 Bạn đã sẵn sàng lưu lại những kỉ niệm chưa ? 🌟
-                                    </h2>
-                                    <p className="text-purple-500 font-semibold text-lg mb-8">
-                                        Chọn các tuỳ chọn của bạn và bắt đầu chụp ảnh ! ✨
-                                    </p>
-                                    
-                                    
-                                    <div className="h-[2px] w-48 mx-auto bg-gradient-to-r from-transparent via-pink-400 to-transparent mb-8"></div>
-                                    
-                                    <div className="space-y-2">
-                                        <p className="text-pink-400 font-bold text-sm tracking-widest uppercase">
-                                            Tạo ra bởi tìn iu 💖 Mong muốn lưu giữ kỉ niệm
-                                        </p>
-                                        <p className="text-pink-500 font-black text-xl italic mt-1">
-                                            ✨ 12A2 with love ✨
-                                        </p>
-                                    </div>
-                                </div>
-                            </footer>
+
+                    <footer className="w-full max-w-4xl mt-12 mb-20 px-4 text-center">
+                        <div className="glass-card p-8 rounded-[40px] border-pink-100 shadow-lg relative overflow-hidden">
+                            <h2 className="text-pink-600 font-bold text-2xl mb-2">Lưu giữ kỉ niệm cùng 12A2</h2>
+                            <p className="text-pink-400 font-medium">✨ Chúc các bạn có những tấm hình thật lung linh! ✨</p>
+                            <div className="mt-4 text-xs text-pink-300 tracking-widest uppercase font-bold">Made with Love 💖 12A2 PhotoBooth</div>
+                        </div>
+                    </footer>
                 </div>
             );
         };
